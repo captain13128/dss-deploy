@@ -233,6 +233,7 @@ contract DssDeploy is DSAuth {
         dai = daiFab.newDai(chainId);
         daiJoin = daiJoinFab.newDaiJoin(address(vat), address(dai));
         dai.rely(address(daiJoin));
+        dai.rely(address(msg.sender));
     }
 
     function deployTaxation() public auth {
@@ -245,6 +246,7 @@ contract DssDeploy is DSAuth {
         // Internal auth
         vat.rely(address(jug));
         vat.rely(address(pot));
+        vat.rely(address(msg.sender));
     }
 
     function deployAuctions(address gov) public auth {
@@ -264,6 +266,8 @@ contract DssDeploy is DSAuth {
         vat.rely(address(flop));
         flap.rely(address(vow));
         flop.rely(address(vow));
+        flop.rely(address(msg.sender));
+        flap.rely(address(msg.sender));
     }
 
     function deployLiquidator() public auth {
@@ -278,6 +282,7 @@ contract DssDeploy is DSAuth {
         // Internal auth
         vat.rely(address(cat));
         vow.rely(address(cat));
+        vow.rely(address(msg.sender));
     }
 
     function deployShutdown(address gov, address pit, uint256 min) public auth {
@@ -296,9 +301,11 @@ contract DssDeploy is DSAuth {
         // Internal auth
         vat.rely(address(end));
         cat.rely(address(end));
+        cat.rely(address(msg.sender));
         vow.rely(address(end));
         pot.rely(address(end));
         spotter.rely(address(end));
+        spotter.rely(address(msg.sender));
 
         // Deploy ESM
         esm = esmFab.newESM(gov, address(end), address(pit), min);
@@ -315,11 +322,14 @@ contract DssDeploy is DSAuth {
         cat.rely(address(pause.proxy()));
         vow.rely(address(pause.proxy()));
         jug.rely(address(pause.proxy()));
+        jug.rely(address(msg.sender));
         pot.rely(address(pause.proxy()));
+        pot.rely(address(msg.sender));
         spotter.rely(address(pause.proxy()));
         flap.rely(address(pause.proxy()));
         flop.rely(address(pause.proxy()));
         end.rely(address(pause.proxy()));
+        end.rely(address(msg.sender));
     }
 
     function deployCollateral(bytes32 ilk, address join, address pip) public auth {
